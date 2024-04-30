@@ -13,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <nav>
-        <h1>MemeHub</h1>
+        <h1>HistoryHub</h1>
         <div>
           <span>Hello, @{userId}!</span>
           <Link to="/">Home</Link>
