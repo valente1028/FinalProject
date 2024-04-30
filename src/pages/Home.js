@@ -7,11 +7,16 @@ const Home = ({ userId }) => {
   const [posts, setPosts] = useState(null);
   const [orderBy, setOrderBy] = useState("created_at");
   const [loading, setLoading] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
-      const { data, error } = await supabase.from("posts").select().order(orderBy, { ascending: false });
+      const { data, error } = await supabase
+        .from("posts")
+        .select()
+        .order(orderBy, { ascending: false })
+        .textSearch('title', searchQuery);  // Assuming 'title' is the field you want to search
 
       if (error) {
         setFetchError("Could not fetch the posts");
@@ -25,12 +30,19 @@ const Home = ({ userId }) => {
     };
 
     fetchPosts();
-  }, [orderBy]);
+  }, [orderBy, searchQuery]);  // Include searchQuery in your dependency array
+
   if (loading) {
     return <div className="loader"></div>;
   } else {
     return (
       <div className="page home">
+        <input
+          type="text"
+          placeholder="Search posts..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
         {fetchError && <p>{fetchError}</p>}
         {posts && (
           <div className="posts">
