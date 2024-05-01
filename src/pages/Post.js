@@ -100,36 +100,6 @@ const Post = ({ userId }) => {
     }
   };
 
-  const parseDate = (pdate) => {
-    let systemDate = new Date(Date.parse(pdate));
-    let userDate = new Date();
-    let diff = Math.floor((userDate - systemDate) / 1000);
-    if (diff < 60) {
-      return "less than a minute ago";
-    }
-    if (diff <= 90) {
-      return "one minute ago";
-    }
-    if (diff <= 3540) {
-      return Math.round(diff / 60) + " minutes ago";
-    }
-    if (diff <= 5400) {
-      return "1 hour ago";
-    }
-    if (diff <= 86400) {
-      return Math.round(diff / 3600) + " hours ago";
-    }
-    if (diff <= 129600) {
-      return "1 day ago";
-    }
-    if (diff < 604800) {
-      return Math.round(diff / 86400) + " days ago";
-    }
-    if (diff <= 777600) {
-      return "1 week ago";
-    }
-    return "on " + systemDate;
-  };
 
   if (loading) {
     return <div className="loader"></div>;
@@ -138,7 +108,7 @@ const Post = ({ userId }) => {
       <div className="page">
         <div className="post-card">
           <p>
-            Posted by {author == userId ? "You" : "@" + author} - {parseDate(createdAt)}
+            Posted by {author == userId ? "You" : "@" + author}
           </p>
           <h3>{referencedPost ? "Re: " + title : title}</h3>
           <p>{content}</p>
@@ -176,7 +146,7 @@ const Post = ({ userId }) => {
             <h3>Replying to...</h3>
             <div className="post-card">
               <p>
-                Posted by @{referencedAuthor == userId ? "You" : referencedAuthor} - {parseDate(referencedCreatedAt)}
+                Posted by @{referencedAuthor == userId ? "You" : referencedAuthor} 
               </p>
               <h3>
                 <Link to={"/" + referencedPost}>{referencedRepost ? "Re: " + referencedTitle : referencedTitle}</Link>
